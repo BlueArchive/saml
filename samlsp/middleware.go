@@ -13,7 +13,7 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 
-	"github.com/crewjam/saml"
+	"github.com/bluearchive/saml"
 )
 
 // Middleware implements middleware than allows a web application
@@ -280,7 +280,7 @@ func (m *Middleware) IsAuthorized(r *http.Request) bool {
 			continue
 		}
 		for _, claimValueStr := range claimValue.([]interface{}) {
-			r.Header.Add(fmt.Sprintf("X-Saml-%s", claimName), claimValueStr.(string))
+			r.Header.Set(fmt.Sprintf("X-Saml-%s", claimName), claimValueStr.(string))
 		}
 	}
 	return true
