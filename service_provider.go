@@ -426,7 +426,9 @@ func (sp *ServiceProvider) validateAssertion(assertion *Assertion, possibleReque
 	if assertion.Conditions.NotOnOrAfter.Before(now) {
 		return fmt.Errorf("Conditions is expired")
 	}
-	if assertion.Conditions.AudienceRestriction.Audience.Value != sp.MetadataURL {
+	if assertion.Conditions.AudienceRestriction != nil &&
+	assertion.Conditions.AudienceRestriction.Audience != nil &&
+		assertion.Conditions.AudienceRestriction.Audience.Value != sp.MetadataURL {
 		return fmt.Errorf("Conditions AudienceRestriction is not %q", sp.MetadataURL)
 	}
 	return nil
