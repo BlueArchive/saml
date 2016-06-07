@@ -279,8 +279,11 @@ func (m *Middleware) IsAuthorized(r *http.Request) bool {
 		if claimName == "exp" {
 			continue
 		}
+		//strip claim name down to something more reasonable; should use friendly name?
+		claimName = claimName[1+strings.LastIndex(claimName, "/"):]
 		for _, claimValueStr := range claimValue.([]interface{}) {
-			r.Header.Set(fmt.Sprintf("X-Saml-%s", claimName), claimValueStr.(string))
+			fmt.Println("Claim:", claimName, claimValueStr.(string))
+			r.Header.Add(fmt.Sprintf("X-Saml-%s", claimName), claimValueStr.(string))
 		}
 	}
 	return true
